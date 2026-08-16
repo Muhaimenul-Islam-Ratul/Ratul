@@ -302,7 +302,7 @@ export default function Hero({ onOpenContact }) {
             height: '100%',
             display: 'block',
             objectFit: 'cover',
-            objectPosition: '50% 50%',
+            objectPosition: 'top center',
             backgroundColor: 'rgba(0,0,0,0)',
           }}
         />
