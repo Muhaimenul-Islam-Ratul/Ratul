@@ -291,7 +291,7 @@ export default function Hero({ onOpenContact }) {
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         <video
           ref={videoRef}
-          src="https://framerusercontent.com/assets/Qc6dhglAiYjaI04EEF5RsqHBU.mp4"
+          src="/hero-banner.mp4"
           preload="auto"
           muted
           loop
@@ -301,7 +301,7 @@ export default function Hero({ onOpenContact }) {
             width: '100%',
             height: '100%',
             display: 'block',
-            objectFit: 'contain',
+            objectFit: 'cover',
             objectPosition: '50% 50%',
             backgroundColor: 'rgba(0,0,0,0)',
           }}
