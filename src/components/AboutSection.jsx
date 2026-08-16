@@ -1,92 +1,88 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useScrollReveal, staggerContainer, fadeUp, slideLeft, slideRight } from '../animations';
+import { useScrollReveal } from '../animations';
+import { STATS_DATA, FEATURED_TESTIMONIAL } from '../data/mockData';
 
 export default function AboutSection() {
   const { ref, isInView } = useScrollReveal(0.15);
-  const stats = [
-    { value: '08+', label: 'YEARS EXPERIENCE', color: 'text-white' },
-    { value: '120+', label: 'PROJECTS DELIVERED', color: 'text-[#FF4925]' },
-    { value: '15+', label: 'INTERNATIONAL AWARDS', color: 'text-white' },
-    { value: '99%', label: 'CLIENT RETENTION', color: 'text-white' },
-  ];
 
   return (
     <section id="about" ref={ref} className="py-24 md:py-36 bg-[#0A0A0A] border-b border-white/10 relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
 
-          {/* Left tag */}
+          {/* Left Tag */}
           <motion.div
             className="lg:col-span-3"
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <span className="font-mono text-xs text-[#FF4925] tracking-widest uppercase px-3 py-1 bg-white/5 border border-white/10 rounded-full inline-block">
               (ABOUT)
             </span>
           </motion.div>
 
-          {/* Main statement */}
-          <motion.div
-            className="lg:col-span-9"
-            variants={staggerContainer}
-            initial="hidden"
-            animate={isInView ? 'show' : 'hidden'}
-          >
-            {/* Large text — line by line reveal */}
-            <div className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-neutral-300 leading-[1.25] tracking-tight overflow-hidden">
-              {[
-                'We combine years of ',
-                'web design',
-                ' and ',
-                'branding expertise',
-                ' to craft meaningful, story-driven experiences for forward-thinking companies.'
-              ].map((segment, i) => (
-                <span key={i} className="text-reveal-wrap inline">
-                  <motion.span
-                    className={`inline ${i === 1 ? 'text-white font-medium underline decoration-[#FF4925] decoration-2 underline-offset-8' : i === 3 ? 'text-white font-medium' : ''}`}
-                    initial={{ opacity: 0, y: 28 }}
+          {/* Main Content */}
+          <div className="lg:col-span-9 space-y-16">
+            
+            {/* Statement */}
+            <motion.h2
+              className="text-3xl sm:text-5xl md:text-6xl font-light text-neutral-200 leading-[1.2] tracking-tight"
+              initial={{ opacity: 0, y: 24 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              We combines years of <span className="text-white font-medium underline decoration-[#FF4925] underline-offset-8">web design</span> and <span className="text-white font-medium">branding expertise</span> to craft meaningful, story-driven experiences.
+            </motion.h2>
+
+            {/* Why Us Tag & Stats Grid */}
+            <div className="space-y-8 pt-8 border-t border-white/10">
+              <span className="font-mono text-xs text-neutral-400 tracking-widest uppercase block">
+                (WHY US)
+              </span>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {STATS_DATA.map((stat, idx) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.7, delay: 0.1 + i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    transition={{ duration: 0.4, delay: 0.2 + idx * 0.08 }}
+                    className="space-y-2 group"
                   >
-                    {segment}
-                  </motion.span>
-                </span>
-              ))}
+                    <div className="font-anton text-4xl sm:text-5xl md:text-6xl text-white group-hover:text-[#FF4925] transition-colors duration-300">
+                      {stat.value}
+                    </div>
+                    <p className="font-geist text-xs text-neutral-400 leading-snug">
+                      {stat.label}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
             </div>
 
-            {/* Stats grid */}
+            {/* Featured Quote Card */}
             <motion.div
-              className="grid grid-cols-2 sm:grid-cols-4 gap-8 pt-16 mt-16 border-t border-white/10"
-              variants={staggerContainer}
-              initial="hidden"
-              animate={isInView ? 'show' : 'hidden'}
-              transition={{ delayChildren: 0.5 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="bg-[#121212] border border-white/10 rounded-2xl p-8 sm:p-12 relative overflow-hidden group hover:border-[#FF4925]/40 transition-colors"
             >
-              {stats.map((stat) => (
-                <motion.div
-                  key={stat.label}
-                  variants={fadeUp}
-                  whileHover={{ y: -6, transition: { type: 'spring', stiffness: 400, damping: 20 } }}
-                  className="group"
-                >
-                  <motion.span
-                    className={`font-anton text-4xl sm:text-5xl ${stat.color} block mb-1`}
-                    initial={{ opacity: 0, scale: 0.7 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ duration: 0.5, delay: 0.6 }}
-                  >
-                    {stat.value}
-                  </motion.span>
-                  <span className="font-mono text-xs text-neutral-400 uppercase group-hover:text-[#FF4925] transition-colors duration-300">
-                    {stat.label}
-                  </span>
-                </motion.div>
-              ))}
+              <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF4925]/10 rounded-full filter blur-3xl pointer-events-none group-hover:bg-[#FF4925]/20 transition-all duration-500" />
+              <p className="text-xl sm:text-2xl md:text-3xl text-white font-light leading-relaxed mb-8 relative z-10 italic">
+                "{FEATURED_TESTIMONIAL.quote}"
+              </p>
+              <div className="flex items-center justify-between pt-6 border-t border-white/10 font-mono text-xs">
+                <div>
+                  <span className="text-white font-semibold block">{FEATURED_TESTIMONIAL.author}</span>
+                  <span className="text-neutral-400">{FEATURED_TESTIMONIAL.role}</span>
+                </div>
+                <span className="text-[#FF4925] tracking-wider uppercase font-semibold">CLIENT REVIEWS</span>
+              </div>
             </motion.div>
-          </motion.div>
+
+          </div>
         </div>
       </div>
     </section>

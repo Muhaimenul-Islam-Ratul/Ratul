@@ -1,183 +1,164 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ArrowUp, Send, Sparkles } from 'lucide-react';
-import { useScrollReveal, staggerContainer, fadeUp } from '../animations';
+import { ArrowUpRight, ArrowUp } from 'lucide-react';
+import { useScrollReveal } from '../animations';
 
 export default function Footer({ onOpenContact, onNavigate }) {
   const { ref, isInView } = useScrollReveal(0.05);
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email) {
+      setSubscribed(true);
+      setTimeout(() => setSubscribed(false), 4000);
+      setEmail('');
+    }
+  };
+
   return (
-    <footer ref={ref} className="bg-[#0A0A0A] border-t border-white/10 pt-24 pb-12 relative overflow-hidden">
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-[#FF4925]/12 rounded-full blur-[200px] pointer-events-none animate-glow" />
-
-      <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative z-10">
-
-        {/* Pre-footer CTA banner */}
+    <footer ref={ref} className="bg-[#0A0A0A] border-t border-white/10 relative overflow-hidden">
+      
+      {/* Giant Ticker Banner */}
+      <div className="py-16 bg-[#FF4925] overflow-hidden select-none border-b border-white/10">
         <motion.div
-          className="bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 rounded-3xl p-8 sm:p-16 mb-20 text-center relative overflow-hidden card-shine"
-          initial={{ opacity: 0, y: 40, scale: 0.97 }}
-          animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="flex whitespace-nowrap gap-12 font-anton text-6xl sm:text-8xl md:text-9xl text-white uppercase tracking-wider cursor-pointer"
+          animate={{ x: [0, -1200] }}
+          transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
+          onClick={onOpenContact}
         >
-          <div className="max-w-3xl mx-auto space-y-6">
-            <motion.span
-              className="font-mono text-xs text-[#FF4925] tracking-widest uppercase flex items-center justify-center gap-2"
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.3, duration: 0.5 }}
-            >
-              <Sparkles className="w-4 h-4" /> LET'S COLLABORATE
-            </motion.span>
-
-            <div className="overflow-hidden">
-              <motion.h2
-                className="font-anton text-4xl sm:text-6xl md:text-7xl text-white uppercase leading-none"
-                initial={{ y: '100%' }}
-                animate={isInView ? { y: '0%' } : {}}
-                transition={{ duration: 0.9, delay: 0.2, ease: [0.76, 0, 0.24, 1] }}
-              >
-                HAVE AN IDEA? LET'S BUILD IT TOGETHER.
-              </motion.h2>
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="flex items-center gap-12">
+              <span>GET IN TOUCH</span>
+              <span className="text-black">•</span>
+              <span className="text-black">LET'S TALK</span>
+              <span>•</span>
             </div>
-
-            <motion.p
-              className="text-neutral-400 font-light text-base sm:text-lg"
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.55, duration: 0.6 }}
-            >
-              We are currently booking projects for Q1/Q2 2026. Send us your inquiry today.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.7, duration: 0.5 }}
-              className="pt-4"
-            >
-              <motion.button
-                onClick={onOpenContact}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-[#FF4925] text-white font-mono text-xs font-bold tracking-wider rounded-full shadow-[0_0_35px_rgba(255,73,37,0.5)]"
-                whileHover={{ scale: 1.07, backgroundColor: '#E03410', boxShadow: '0 0 55px rgba(255,73,37,0.75)' }}
-                whileTap={{ scale: 0.96 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-              >
-                <span>GET IN TOUCH NOW</span>
-                <ArrowUpRight className="w-5 h-5" />
-              </motion.button>
-            </motion.div>
-          </div>
+          ))}
         </motion.div>
+      </div>
 
-        {/* Footer grid columns */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-white/10"
-          variants={staggerContainer}
-          initial="hidden"
-          animate={isInView ? 'show' : 'hidden'}
-          transition={{ delayChildren: 0.5, staggerChildren: 0.1 }}
-        >
-          {/* Brand info */}
-          <motion.div variants={fadeUp} className="md:col-span-5 space-y-4">
-            <motion.span
-              className="font-anton text-3xl text-white tracking-wider block"
-              whileHover={{ color: '#FF4925' }}
-              transition={{ duration: 0.2 }}
-            >
-              NAKULA <span className="text-[#FF4925]">®</span>
-            </motion.span>
-            <p className="text-neutral-400 text-sm font-light leading-relaxed max-w-sm">
-              Nakula is a high-end design studio specializing in brand identity, custom web architecture, 3D motion graphics, and digital product strategy.
-            </p>
-            <div className="pt-2 font-mono text-xs text-neutral-400 space-y-1">
-              <div>EMAIL: <a href="mailto:hello@nakulastudio.com" className="text-white hover-underline hover:text-[#FF4925] transition-colors">hello@nakulastudio.com</a></div>
-              <div>LOCATION: San Francisco, CA &amp; Worldwide</div>
+      {/* Main Footer Container */}
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-20">
+        
+        {/* Status Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-12 mb-16 border-b border-white/10 font-mono text-xs text-neutral-400">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+            <span className="text-white">Available for project — EARLY FEB 2025</span>
+          </div>
+          <div className="text-neutral-400">
+            2:49 PM (GMT+7)
+          </div>
+        </div>
+
+        {/* 4 Columns Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-white/10">
+          
+          {/* Col 1: Contact Info */}
+          <div className="md:col-span-4 space-y-6">
+            <div>
+              <span className="font-mono text-xs text-neutral-500 block mb-1">(email)</span>
+              <a href="mailto:hello@nakula.com" className="font-anton text-2xl sm:text-3xl text-white hover:text-[#FF4925] transition-colors">
+                hello@nakula.com
+              </a>
             </div>
-          </motion.div>
 
-          {/* Quick links */}
-          <motion.div variants={fadeUp} className="md:col-span-3 space-y-3 font-mono text-xs">
-            <span className="text-neutral-500 uppercase tracking-wider block mb-4">NAVIGATION</span>
+            <div>
+              <span className="font-mono text-xs text-neutral-500 block mb-1">(phone)</span>
+              <a href="tel:+12345678" className="font-mono text-sm text-neutral-300 hover:text-white transition-colors">
+                +12 345678
+              </a>
+            </div>
+          </div>
+
+          {/* Col 2: Navigation Links */}
+          <div className="md:col-span-3 space-y-3 font-mono text-xs">
+            <span className="text-neutral-500 block mb-4">(LINKS)</span>
             {[
-              { label: 'HOME', href: '#home' },
-              { label: 'ABOUT', href: '#about' },
-              { label: 'SELECTED WORKS', href: '#works' },
-              { label: 'SERVICES', href: '#services' },
-              { label: 'PRICING', href: '#pricing' },
-              { label: 'JOURNAL', href: '#journal' },
+              { label: 'Home', href: '#home' },
+              { label: 'About', href: '#about' },
+              { label: 'Works', href: '#works' },
+              { label: 'Services', href: '#services' },
+              { label: 'Pricing', href: '#pricing' },
+              { label: 'Blog', href: '#blog' },
+              { label: 'Waitlist', href: '#pricing' },
             ].map(link => (
-              <motion.a
+              <a
                 key={link.label}
                 href={link.href}
                 onClick={(e) => { e.preventDefault(); onNavigate(link.href); }}
-                className="block text-neutral-300 hover-underline"
-                whileHover={{ x: 6, color: '#FF4925' }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                className="block text-neutral-300 hover:text-[#FF4925] transition-colors"
               >
                 {link.label}
-              </motion.a>
+              </a>
             ))}
-          </motion.div>
+          </div>
 
-          {/* Newsletter */}
-          <motion.div variants={fadeUp} className="md:col-span-4 space-y-4">
-            <span className="font-mono text-xs text-neutral-500 uppercase tracking-wider block mb-2">SUBSCRIBE TO INSIGHTS</span>
-            <p className="text-neutral-400 text-xs font-light">
-              Receive monthly articles on design trends, Framer tips, and agency workflows.
+          {/* Col 3: Social Links */}
+          <div className="md:col-span-2 space-y-3 font-mono text-xs">
+            <span className="text-neutral-500 block mb-4">(SOCIALS)</span>
+            {[
+              { label: 'X/Twitter', href: 'https://twitter.com' },
+              { label: 'Instagram', href: 'https://instagram.com' },
+              { label: 'LinkedIn', href: 'https://linkedin.com' },
+              { label: 'Behance', href: 'https://behance.net' },
+            ].map(s => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-neutral-300 hover:text-[#FF4925] transition-colors"
+              >
+                {s.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Col 4: Newsletter */}
+          <div className="md:col-span-3 space-y-4">
+            <p className="font-geist text-xs text-neutral-300 leading-relaxed">
+              Sign up for our newsletter to get latest insights and updates
             </p>
-            <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2">
+            <form onSubmit={handleSubscribe} className="space-y-3">
               <input
                 type="email"
-                placeholder="Enter email..."
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-neutral-500 font-sans text-xs focus:outline-none focus:border-[#FF4925] transition-colors"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter email address"
+                className="w-full px-4 py-3 bg-[#121212] border border-white/10 rounded-xl text-white placeholder-neutral-500 font-sans text-xs focus:outline-none focus:border-[#FF4925] transition-colors"
               />
               <motion.button
                 type="submit"
-                className="p-3 bg-[#FF4925] text-white rounded-xl"
-                whileHover={{ scale: 1.1, backgroundColor: '#E03410', boxShadow: '0 0 20px rgba(255,73,37,0.5)' }}
-                whileTap={{ scale: 0.93 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                className="w-full py-3 bg-[#FF4925] text-white font-mono text-xs font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-[#E03410] transition-colors"
+                whileTap={{ scale: 0.97 }}
               >
-                <Send className="w-4 h-4" />
+                <span>{subscribed ? 'SUBSCRIBED!' : 'SUBSCRIBE'}</span>
+                <ArrowUpRight className="w-4 h-4" />
               </motion.button>
             </form>
-          </motion.div>
-        </motion.div>
+          </div>
 
-        {/* Huge NAKULA watermark */}
-        <motion.div
-          className="py-12 text-center border-b border-white/10 select-none overflow-hidden"
-          initial={{ opacity: 0, y: 60 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1, delay: 0.6, ease: [0.76, 0, 0.24, 1] }}
-        >
-          <motion.h1
-            className="font-anton text-7xl sm:text-[140px] md:text-[200px] lg:text-[260px] leading-none text-white/[0.06] uppercase tracking-widest"
-            whileHover={{ color: 'rgba(255,73,37,0.15)' }}
-            transition={{ duration: 0.8 }}
-          >
-            NAKULA
-          </motion.h1>
-        </motion.div>
+        </div>
 
-        {/* Credits bar */}
+        {/* Bottom copyright bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-neutral-500">
-          <span>© 2026 NAKULA DESIGN STUDIO. ALL RIGHTS RESERVED.</span>
+          <span>@2025 NAKULA. All Rights Reserved</span>
+
           <div className="flex items-center gap-6">
-            <a href="#privacy" className="hover:text-white transition-colors hover-underline">PRIVACY POLICY</a>
-            <a href="#terms" className="hover:text-white transition-colors hover-underline">TERMS OF SERVICE</a>
-            <motion.button
+            <a href="#privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#terms" className="hover:text-white transition-colors">Terms of Service</a>
+            <button
               onClick={scrollToTop}
-              className="p-2 rounded-full bg-white/5 border border-white/10 text-neutral-400 flex items-center gap-1"
-              whileHover={{ backgroundColor: '#FF4925', color: '#fff', scale: 1.1, borderColor: '#FF4925' }}
-              whileTap={{ scale: 0.92 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-              aria-label="Back to Top"
+              className="p-2 rounded-full bg-white/5 border border-white/10 text-neutral-400 hover:bg-[#FF4925] hover:text-white hover:border-[#FF4925] transition-all flex items-center gap-1"
             >
               <ArrowUp className="w-4 h-4" /> TOP
-            </motion.button>
+            </button>
           </div>
         </div>
 

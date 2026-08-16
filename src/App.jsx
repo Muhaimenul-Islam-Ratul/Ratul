@@ -6,8 +6,9 @@ import AboutSection from './components/AboutSection';
 import ProjectsSection from './components/ProjectsSection';
 import ServicesSection from './components/ServicesSection';
 import ProcessSection from './components/ProcessSection';
-import PricingSection from './components/PricingSection';
 import TestimonialsSection from './components/TestimonialsSection';
+import PricingSection from './components/PricingSection';
+import FaqSection from './components/FaqSection';
 import JournalSection from './components/JournalSection';
 import Footer from './components/Footer';
 import ContactModal from './components/ContactModal';
@@ -27,7 +28,7 @@ export default function App() {
     // Remove curtain after animation
     const t = setTimeout(() => setCurtainDone(true), 1200);
 
-    // Cursor tracking — starts off-screen, snaps to real position on first move
+    // Cursor tracking
     const handleMove = (e) => {
       const x = e.clientX, y = e.clientY;
       if (dotRef.current) {
@@ -45,7 +46,6 @@ export default function App() {
 
     window.addEventListener('mousemove', handleMove);
 
-    // Add hover class on interactive elements
     const interactives = document.querySelectorAll('a, button, [role="button"]');
     interactives.forEach(el => {
       el.addEventListener('mouseenter', handleEnter);
@@ -72,14 +72,14 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white selection:bg-[#FF4925] selection:text-white relative">
+    <div className="min-h-screen bg-[#0A0A0A] text-white selection:bg-[#FF4925] selection:text-white relative font-sans">
       {/* Page load curtain wipe */}
       {!curtainDone && <div className="page-curtain" />}
 
       {/* Film grain noise overlay */}
       <div className="noise-overlay" />
 
-      {/* Custom cursor — starts off-screen until first mouse move */}
+      {/* Custom cursor */}
       <div ref={dotRef}  className="cursor-dot"  style={{ left: '-200px', top: '-200px' }} />
       <div ref={ringRef} className="cursor-ring" style={{ left: '-200px', top: '-200px' }} />
 
@@ -98,8 +98,9 @@ export default function App() {
         <ProjectsSection onSelectProject={(project) => setSelectedProject(project)} />
         <ServicesSection onOpenContact={() => setIsContactOpen(true)} />
         <ProcessSection />
-        <PricingSection onOpenContact={() => setIsContactOpen(true)} />
         <TestimonialsSection />
+        <PricingSection onOpenContact={() => setIsContactOpen(true)} />
+        <FaqSection onOpenContact={() => setIsContactOpen(true)} />
         <JournalSection />
       </main>
 
