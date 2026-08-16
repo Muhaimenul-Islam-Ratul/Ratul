@@ -288,7 +288,7 @@ export default function Hero({ onOpenContact }) {
       }}
     >
       {/* ── framer-1bxe6ik-container  (video, full section) ── */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+      <div style={{ position: 'absolute', inset: 0, top: 50, zIndex: 0 }}>
         <video
           ref={videoRef}
           src="/hero-banner.mp4"
@@ -299,11 +299,11 @@ export default function Hero({ onOpenContact }) {
           autoPlay
           style={{
             width: '100%',
-            height: '100%',
+            height: 'calc(100% - 50px)',
             display: 'block',
-            objectFit: 'cover',
-            objectPosition: 'top center',
-            backgroundColor: 'rgba(0,0,0,0)',
+            objectFit: 'contain',
+            objectPosition: 'center top',
+            backgroundColor: '#000000',
           }}
         />
       </div>
